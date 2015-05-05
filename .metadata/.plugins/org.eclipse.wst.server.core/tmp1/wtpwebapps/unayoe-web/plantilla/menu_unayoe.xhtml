@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<p:panelMenu style="font-size:10px;"
+		transient="true" >		 
+		<p:submenu label="Ingresar Datos de los Alumnos Observados">
+			<p:menuitem value="Cargar Datos desde Excel" action="#{alumnoMBean.ingresarDatosAlumnosUnayoe}"
+				icon="ui-icon-arrowrefresh-1-w" />
+		</p:submenu>
+		<p:submenu label="Visualizar Horarios de Tutoría">
+			<p:menuitem value="De alumnos" action="#{registrarTutoriaMBean.visualizarHorarioDeTutoriaAlumnoUnayoe}"
+				icon="ui-icon-arrowrefresh-1-w"  />
+			<p:menuitem value="De tutor  " action="#{registrarTutoriaMBean.visualizarHorarioDeTutoriaTutorUnayoe}"
+				icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="General "   action="#{registrarTutoriaMBean.visualizarHorarioDeTutoriaSemanalUnayoe}"
+				icon="ui-icon-arrowrefresh-1-w" />
+		</p:submenu>
+		<p:submenu label="Visualizar Reporte de Asistencia del Alumno">
+			<p:menuitem value="De Alumnos a Tutoria" action="#{visualizarReporteMBean.visualizarReporteAsistenciaAlumnosTutoriaUnayoe}"
+				icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="De Alumnos a Clases " action="#{visualizarReporteMBean.visualizarReporteAsistenciaAlumnosClaseUnayoe}"
+				icon="ui-icon-arrowrefresh-1-w" />
+			<p:menuitem value="De Tutor " action="#{visualizarReporteMBean.visualizarReporteAsistenciaDeTutorUnayoe}"
+				icon="ui-icon-arrowrefresh-1-w" />
+		</p:submenu> 		 
+				 
+		<p:submenu label="Salir del sistema">
+                    <p:menuitem value="Cerrar Sesion" url="#{request.contextPath}/j_spring_security_logout" 
+				icon="ui-icon-arrowrefresh-1-w" />
+			 
+		</p:submenu>
+
+	</p:panelMenu>
+</h:body>
+</html>

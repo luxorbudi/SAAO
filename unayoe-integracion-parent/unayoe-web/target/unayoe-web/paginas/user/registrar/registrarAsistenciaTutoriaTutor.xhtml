@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/plantilla/plantilla_user.xhtml">
+	<ui:define name="contenido">
+
+		<p:panel header="Asistencia de Docente a Tutoria"
+			style="width: 300px;">
+			<h:panelGrid id="pnlLoginAcceso" style="font-size: 12px;" columns="2"
+				cellspacing="5">
+				
+			</h:panelGrid>
+		</p:panel>
+		<p:outputPanel id="displayTable" style="width:80%;margin-top:10px;">
+			<p:row id="tablaAsistenciaTutoriaDocente">
+				<p:column id="colTabla"
+					styleClass="ui-column-label-spij styleAlignRightColumn">
+
+					<p:dataTable id="tablaResultado" style="font-size:12px;"
+						value="#{tutoriaMBean.listAsistenciaDocenteTutoria}" var="lista"
+						emptyMessage="Sin tutoria asignada" paginator="true" rows="5">
+						<f:facet name="header">
+							<h:outputLabel style="font-size: 12px;" value="Grados Académicos" />
+						</f:facet>
+
+						<p:column headerText="Curso" style="font-size: 12px;width: 20%">
+							<h:outputText value="#{lista.curso.nombre}" />
+						</p:column>
+
+						<p:column headerText="Cod. Docente"
+							sortBy="#{lista.profesor.pCodigo}"
+							filterBy="#{lista.profesor.pCodigo}"
+							style="font-size: 12px;width: 35%">
+							<h:outputText value="#{lista.profesor.pCodigo}" />
+						</p:column>
+
+						<p:column headerText="Nombres" sortBy="#{lista.profesor.pNombre}"
+							filterBy="#{lista.profesor.pNombre}"
+							style="font-size: 12px;width: 25%">
+							<h:outputText value="#{lista.profesor.pNombre}" />
+						</p:column>
+
+						<p:column headerText="Apellido"
+							sortBy="#{lista.profesor.pApellidos}"
+							filterBy="#{lista.profesor.pApellidos}"
+							style="font-size: 12px;width: 25%">
+							<h:outputText value="#{lista.profesor.pApellidos}" />
+						</p:column>
+
+						<p:column headerText="Hora Inicio"
+							style="font-size: 12px;width: 25%">
+							<h:outputText value="#{lista.diasClase.horaIni}" />
+						</p:column>
+
+						<p:column headerText="Hora Fin" style="font-size: 12px;width: 25%">
+							<h:outputText value="#{lista.diasClase.horaFin}" />
+						</p:column>
+
+						<p:column headerText="Asistencia"
+							style="font-size: 12px;width: 25%">
+							<p:selectOneMenu value="#{lista.observacionT}">
+								<f:selectItem itemLabel="Falto" itemValue="F" />
+								<f:selectItem itemLabel="Asistio" itemValue="A" />
+								<f:selectItem itemLabel="Tardanza" itemValue="T" />
+							</p:selectOneMenu>
+						</p:column>
+
+
+
+						<p:column headerText="Observaciones"
+							style="font-size: 12px;width: 25%">
+							<h:inputText value="#{lista.observacionT}" />
+						</p:column>
+						<f:facet name="footer">
+							<h:outputLabel style="font-size: 12px;"
+								value="Total de Registros: #{tutoriaMBean.listAsistenciaDocenteTutoria.size()}" />
+						</f:facet>
+					</p:dataTable>
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column colspan="3">
+					<p:commandButton value="Guardar" id="botonGuardar"
+						actionListener="#{tutoriaMBean.guardarAsistenciaTutoriaDocente}"
+						ajax="false" />
+				</p:column>
+			</p:row>
+		</p:outputPanel>
+
+	</ui:define>
+
+</ui:composition>
+
+
+</html>

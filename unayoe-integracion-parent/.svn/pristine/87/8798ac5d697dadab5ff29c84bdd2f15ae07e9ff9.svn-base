@@ -1,0 +1,300 @@
+package pe.edu.sistemas.unayoe.controlador;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.faces.bean.ViewScoped;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Controller;
+
+import pe.edu.sistemas.unayoe.core.util.Convertidor;
+import pe.edu.sistemas.unayoe.core.util.FormateadorFecha;
+import pe.edu.sistemas.unayoe.model.AlumnoModel;
+import pe.edu.sistemas.unayoe.model.TutoriaModel;
+import pe.edu.sistemas.unayoe.services.AlumnoServices;
+import pe.edu.sistemas.unayoe.services.CursoServices;
+import pe.edu.sistemas.unayoe.services.TutoriaServices;
+import pe.edu.sistemas.unayoe.unayoe.bo.AsistenciaCAlumnoBO;
+import pe.edu.sistemas.unayoe.unayoe.bo.AsistenciaTAlumBO;
+import pe.edu.sistemas.unayoe.unayoe.bo.CursoBO;
+import pe.edu.sistemas.unayoe.unayoe.bo.TutoriaBO;
+
+@Controller("alumnoMBean")
+@ViewScoped
+public class AlumnoMBean {
+
+	@Autowired
+	private AlumnoModel alumnoModel;
+	@Autowired
+	private AlumnoServices alumnoServices;
+	@Autowired
+	private CursoServices cursoServices;
+	@Autowired
+	private TutoriaServices tutoriaServices;
+	private List<AsistenciaCAlumnoBO> listAlumnoBO;
+	// atributos para la seleccion del combo
+	private boolean select;
+	private AlumnoModel alumnoModelSelect;
+	private List<AlumnoModel> listAlumnoModel;
+	private Date date;
+	private Convertidor convertir;
+	private FormateadorFecha fechaFormateada;
+	private List<AsistenciaTAlumBO> listAsistenciaAlumnosTutoria;
+
+	public List<AsistenciaTAlumBO> getListAsistenciaAlumnosTutoria() {
+		return listAsistenciaAlumnosTutoria;
+	}
+
+	public void setListAsistenciaAlumnosTutoria(
+			List<AsistenciaTAlumBO> listAsistenciaAlumnosTutoria) {
+		this.listAsistenciaAlumnosTutoria = listAsistenciaAlumnosTutoria;
+	}
+
+	public AlumnoMBean() {
+		System.out.println("::::: LOADING ::::::::");
+		alumnoModelSelect = new AlumnoModel();
+
+		listAsistenciaAlumnosTutoria = new ArrayList<AsistenciaTAlumBO>();
+		convertir = new Convertidor();
+		fechaFormateada = new FormateadorFecha();
+		date=new Date();
+	}
+
+	public String ingresarDatosAlumnos() {
+		System.out.println("ingresaDatosAlumnos");
+		listarCursos();
+
+		return "/paginas/admin/ingresar/ingresarDatosAlumnos.xhtml";
+
+	}
+
+	public String ingresarDatosAlumnosUnayoe() {
+		System.out.println("ingresarDatosAlumnosUnayoe");
+		listarCursos();
+
+		return "/paginas/unayoe/ingresar/ingresarDatosAlumnos.xhtml";
+
+	}	
+	// metodos que domina de la pantallas
+	public String visualizarHorarioDeTutoria() {
+		System.out.println("visualizarHorarioDeTutoria");
+
+		return "/paginas/visualizar/visualizarHorariosDeTutoriaAlumno.xhtml";
+
+	}
+
+	public String registrarAsistenciaAClases() {
+		System.out.println("[AlumnoMBean]:registrarAsistenciaAClases");
+		listarCursos();
+
+		return "/paginas/admin/registrar/registrarAsistenciaAlumnosAClases.xhtml";
+	}
+	
+
+	public String registrarAsistenciaAClasesUser() {
+		System.out.println("[AlumnoMBean]:registrarAsistenciaAClasesUser");
+		listarCursos();
+
+		return "/paginas/user/registrar/registrarAsistenciaAlumnosAClases.xhtml";
+	}
+
+	public void listarCursos() {
+		System.out.println("Listando los cursos:");
+
+		List<CursoBO> listarCursos = null;
+		try {
+			listarCursos = cursoServices.listarCursos();
+
+			alumnoModel.setListarCursos(listarCursos);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public String registrarAsistenciaTutoriaAlumnos() {
+		System.out.println("[AlumnoMBean]:registrarAsistenciaTutoriaAlumnos");
+		listarCursos();
+		
+		return "/paginas/admin/registrar/registrarAsistenciaTutoriaAlumnos.xhtml";
+
+	}
+
+	// Metodo para buscar asistencia del perfil administrador
+	public void buscarAsistenciaAlumnosTutoria() {
+		System.out.println("::::::: buscarAsistenciaAlumnosTutoria:::::::::");
+
+		// antes de enviar la fecha la formateadmo a dd/MM/yyyy
+		Date fechaAsistencia = getDate();
+
+		String fecha = fechaFormateada.formatoFechaDDMMAAAA(fechaAsistencia);
+		String codigoCurso = alumnoModelSelect.getCodigo();
+		String anio = fecha.substring(6, 10);
+		String mes = fecha.substring(3, 5);
+		String dia = "VIERNES";//convertir.convertirDia(fechaAsistencia);
+		String periodo = convertir.convertirFechaAPeriodo(mes);
+
+		// se llama por el service a la conexion de base de datos
+		try {
+			listAsistenciaAlumnosTutoria = tutoriaServices
+					.buscarAsistenciaDeAlumnosTutoria(periodo, anio, dia,
+							codigoCurso);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+
+
+	public String registrarAsistenciaTutoriaAlumnosUser() {
+		System.out.println("[AlumnoMBean]:registrarAsistenciaTutoriaAlumnos");
+		listarCursos();
+		buscarAsistenciaAlumnosTutoriaUser();
+
+		return "/paginas/user/registrar/registrarAsistenciaTutoriaAlumnos.xhtml";
+
+	}
+
+	// Metodo para buscar asistencia del perfil user
+	public void buscarAsistenciaAlumnosTutoriaUser() {
+		System.out.println("::::::: buscarAsistenciaAlumnosTutoria:::::::::");
+
+		// antes de enviar la fecha la formateadmo a dd/MM/yyyy
+		Date fechaAsistencia = new Date();
+
+		String fecha = fechaFormateada.formatoFechaDDMMAAAA(fechaAsistencia);
+		String codigoCurso = alumnoModelSelect.getCod_curso();
+		String anio = fecha.substring(6, 10);
+		String mes = fecha.substring(3, 5);
+		String dia = convertir.convertirDia(fechaAsistencia);
+		String periodo = convertir.convertirFechaAPeriodo(mes);
+		String horaIni = convertir.convertirFechaEnHora(fechaAsistencia);
+		String horaFin = convertir.convertirFechaEnHora(fechaAsistencia);
+		String codUser = null;
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		System.out.println("::::::::::::::: ENTRO ACA ::::::::::::::::");
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			User user = (User) auth.getPrincipal();
+			codUser = user.getUsername();
+
+		}
+
+		// se llama por el service a la conexion de base de datos
+		try {
+			listAsistenciaAlumnosTutoria = tutoriaServices
+					.buscarAsistenciaDeAlumnosTutoriaUser(periodo, anio, dia,
+							codigoCurso, codUser, horaIni, horaFin);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	} 
+
+	public String mostrarAlumnosObservados() {
+		System.out.println("mostrarAlumnosObservados");
+		listarCursos();
+		return "/paginas/ingresar/mostrarAlumnosObservados.xhtml";
+
+	}
+
+	public void buscarAsistenciaAlumnosAClases() {
+		System.out.println("::::::: buscarAsistenciaAlumnosTutoria:::::::::");
+
+		// antes de enviar la fecha la formateadmo a dd/MM/yyyy
+		Date fechaAsistencia = getDate();
+		FormateadorFecha fechaFormateada = new FormateadorFecha();
+
+		String fecha = fechaFormateada.formatoFechaDDMMAAAA(fechaAsistencia);
+		String codigoCurso = alumnoModelSelect.getCod_curso();
+		// se llama por el service a la conexion de base de datos
+		try {
+			listAlumnoBO = alumnoServices.buscarAsistenciaDeAlumnosClases(
+					fecha, codigoCurso);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public String guardarListaAsistenciaClases() {
+		System.out.println("guardarListaAsistencia");
+		// antes de enviar la fecha la formateadmo a dd/MM/yyyy
+		Date fechaAsistencia = getDate();
+		FormateadorFecha fechaFormateada = new FormateadorFecha();
+
+		String fecha = fechaFormateada.formatoFechaDDMMAAAA(fechaAsistencia);
+		String codigoCurso = alumnoModelSelect.getCod_curso();
+
+		try {
+			alumnoServices.actualizarListaAsistenciaClases(getListAlumnoBO(),
+					codigoCurso, fecha);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return "/paginas/ingresarTutoriaAlumnos.xhtml";
+
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public AlumnoModel getAlumnoModel() {
+		return alumnoModel;
+	}
+
+	public void setAlumnoModel(AlumnoModel alumnoModel) {
+		this.alumnoModel = alumnoModel;
+	}
+
+	public List<AsistenciaCAlumnoBO> getListAlumnoBO() {
+		return listAlumnoBO;
+	}
+
+	public void setListAlumnoBO(List<AsistenciaCAlumnoBO> listAlumnoBO) {
+		this.listAlumnoBO = listAlumnoBO;
+	}
+
+	public boolean isSelect() {
+		return select;
+	}
+
+	public void setSelect(boolean select) {
+		this.select = select;
+	}
+
+	public AlumnoModel getAlumnoModelSelect() {
+		return alumnoModelSelect;
+	}
+
+	public void setAlumnoModelSelect(AlumnoModel alumnoModelSelect) {
+		this.alumnoModelSelect = alumnoModelSelect;
+	}
+
+	public List<AlumnoModel> getListAlumnoModel() {
+		return listAlumnoModel;
+	}
+
+	public void setListAlumnoModel(List<AlumnoModel> listAlumnoModel) {
+		this.listAlumnoModel = listAlumnoModel;
+	}
+
+}

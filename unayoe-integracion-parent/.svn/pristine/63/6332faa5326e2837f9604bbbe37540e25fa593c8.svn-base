@@ -1,0 +1,26 @@
+package pe.edu.sistemas.unayoe.controlador;
+
+import javax.faces.bean.ViewScoped;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import pe.edu.sistemas.unayoe.model.UsuarioModel;
+import pe.edu.sistemas.unayoe.services.UsuarioServices;
+
+@Controller("usuarioMBean")
+@ViewScoped
+public class UsuarioMBean {
+
+	@Autowired
+	private UsuarioModel usuarioModel;
+	@Autowired
+	private UsuarioServices usuarioServices;
+
+	public String nuevo() {
+		
+		
+		return "/paginas/admin/mantenimiento/nuevo/nuevoUsuario.xhtml";
+
+	} 
+}

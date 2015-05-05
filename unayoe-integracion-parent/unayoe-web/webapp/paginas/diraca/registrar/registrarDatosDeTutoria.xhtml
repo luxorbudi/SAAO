@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/plantilla/plantilla_dir_aca.xhtml">
+	<ui:define name="contenido">
+
+		<p:panel header="Registro Datos de Tutoria"
+			style="width: 95%;border: 0px;">
+
+			<h:panelGrid columns="3" cellspacing="5">
+				<h:outputText value="Ciclo" style="font-weight: bold;" />
+				<p:spacer width="10px" />
+				<p:selectOneMenu
+					value="#{registrarTutoriaMBean.asistenciaTutoriaModelSelect.tPeriodo}">
+					<f:selectItem itemLabel="2014-0" itemValue="0" />
+					<f:selectItem itemLabel="2014-1" itemValue="1" />
+					<f:selectItem itemLabel="2014-2" itemValue="2" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+
+			<h:panelGrid id="pnlBuscador"
+				style="font-size: 12px;text-align: left" columns="5" cellspacing="5">
+				<h:outputText value="Codigo Alumno" style="font-weight: bold;"/>
+				<p:outputPanel>
+					<p:inputText
+						value="#{registrarTutoriaMBean.asistenciaTutoriaModelSelect.a_codigo}"
+						size="30" />
+					<p:spacer width="5px" />
+					<p:commandButton 
+						value="#{mensaje['unayoe.ingresar.datos.alumnos.label.buscar']}"
+						actionListener="#{registrarTutoriaMBean.buscarMatriculaAlumno}" 
+						update="pnlBuscador"/>
+				</p:outputPanel>
+				<p:spacer width="30px" />
+
+				<h:outputText
+					value="#{mensaje['unayoe.ingresar.datos.alumnos.label.curso']}" style="font-weight: bold;" />
+				<p:selectOneMenu id="selectOneCurso"
+					value="#{registrarTutoriaMBean.asistenciaTutoriaModelSelect.c_codigo}"
+					styleClass="ui-column-label-spij styleAlignRightColumn">
+					<f:selectItem itemLabel="Seleccionar el curso : "  />
+					<f:selectItems
+						value="#{registrarTutoriaMBean.asistenciaTutoriaModel.listarCursos}"
+						var="cursos" itemLabel="#{cursos.nombre}"
+						itemValue="#{cursos.cCodigo}" />
+				</p:selectOneMenu>
+
+
+				<h:outputText value="Nombre de Alumno" style="font-weight: bold;" />
+				<p:inputText
+					id="nombreAlumno"
+					value="#{registrarTutoriaMBean.asistenciaTutoriaModelSelect.a_nombre}"
+					size="40" />
+				<p:spacer width="30px" />
+				<h:outputText value="Docente" style="font-weight: bold;" />
+				
+				<p:selectOneMenu id="selectOneProfesor"
+					value="#{registrarTutoriaMBean.asistenciaTutoriaModelSelect.p_codigo}"
+					styleClass="ui-column-label-spij styleAlignRightColumn">
+					<f:selectItem itemLabel="Seleccionar el profesor : " />
+					<f:selectItems
+						value="#{registrarTutoriaMBean.asistenciaTutoriaModel.listarProfesores}"
+						var="profesor" itemLabel="#{profesor.pNombre}"
+						itemValue="#{profesor.pCodigo}" />
+				</p:selectOneMenu>
+
+			</h:panelGrid>
+
+					
+			
+		
+			
+<p:panelGrid style="margin-top:20px" >
+    <f:facet name="header">
+        
+        <p:row>
+            <p:column colspan="2">Día</p:column>
+            <p:column colspan="2">Hora de Inicio</p:column>
+            <p:column colspan="2" >Hora de Fin</p:column>
+            
+        </p:row>
+ 
+    </f:facet>
+ 
+    	<p:row>
+        
+        	
+        	<p:column colspan="2"  rowspan="2" style="font-weight: bold;">
+        		
+        		<p:outputPanel id="customPanel" >
+        			<p:selectOneRadio id="customRadio"  value="#{registrarTutoriaMBean.asistenciaTutoriaModelSelect.dia}"  layout="custom">
+            		<f:selectItem itemLabel="Lunes" itemValue="LUNES" />
+           	 		<f:selectItem itemLabel="Martes" itemValue="MARTES" />
+            		<f:selectItem itemLabel="Miercoles" itemValue="MIERCOLES" />
+            		<f:selectItem itemLabel="Jueves" itemValue="JUEVES" />
+            		<f:selectItem itemLabel="Viernes" itemValue="VIERNES" />
+            		<f:selectItem itemLabel="Sabado" itemValue="SABADO" />
+	            </p:selectOneRadio>
+        			<h:panelGrid columns="2" cellpadding="5">
+            		<p:radioButton id="opt1" for="customRadio" itemIndex="0" /><h:outputLabel for="opt1" value="Lunes" />        		
+            		<p:radioButton id="opt2" for="customRadio" itemIndex="1" /><h:outputLabel for="opt2" value="Martes" />
+            		<p:radioButton id="opt3" for="customRadio" itemIndex="2" /><h:outputLabel for="opt3" value="Miercoles" />
+            		<p:radioButton id="opt4" for="customRadio" itemIndex="3" /><h:outputLabel for="opt4" value="Jueves" />         
+		            <p:radioButton id="opt5" for="customRadio" itemIndex="4" /><h:outputLabel for="opt5" value="Viernes" />           
+		            <p:radioButton id="opt6" for="customRadio" itemIndex="5" /><h:outputLabel for="opt6" value="Sabado" />
+	            </h:panelGrid>
+        		 </p:outputPanel>
+        	</p:column>
+        	
+        	<p:column colspan="2" rowspan="6" style="font-weight: bold;">
+        	<p:selectOneMenu   
+								value="#{registrarTutoriaMBean.asistenciaTutoriaModelSelect.horaIni}">
+								<f:selectItem itemLabel=" 8:00 am  " itemValue="8"  />
+								<f:selectItem itemLabel=" 9:00 am  " itemValue="9" />
+								<f:selectItem itemLabel="10:00 am " itemValue="10" />
+								<f:selectItem itemLabel="11:00 am " itemValue="11" />
+								<f:selectItem itemLabel="12:00 pm " itemValue="12" />
+								<f:selectItem itemLabel=" 1:00 pm " itemValue="13" />
+								<f:selectItem itemLabel=" 2:00 pm " itemValue="14" />
+								<f:selectItem itemLabel=" 3:00 pm " itemValue="15" />
+								<f:selectItem itemLabel=" 4:00 pm " itemValue="16" />
+								<f:selectItem itemLabel=" 5:00 pm " itemValue="17" />
+								<f:selectItem itemLabel=" 6:00 pm " itemValue="18" />
+								<f:selectItem itemLabel=" 7:00 pm " itemValue="18" />	
+								<f:selectItem itemLabel=" 8:00 pm " itemValue="18" />	
+								<f:selectItem itemLabel=" 9:00 pm " itemValue="18" />						
+				</p:selectOneMenu>
+        	
+        	</p:column>
+        	
+        	
+        	<p:column colspan="2" rowspan="6" style="font-weight: bold;">
+        	<p:selectOneMenu
+							value="#{registrarTutoriaMBean.asistenciaTutoriaModelSelect.horaFin}">
+								<f:selectItem itemLabel=" 8:00 am  " itemValue="8"  />
+								<f:selectItem itemLabel=" 9:00 am  " itemValue="9" />
+								<f:selectItem itemLabel="10:00 am " itemValue="10" />
+								<f:selectItem itemLabel="11:00 am " itemValue="11" />
+								<f:selectItem itemLabel="12:00 pm " itemValue="12" />
+								<f:selectItem itemLabel=" 1:00 pm " itemValue="13" />
+								<f:selectItem itemLabel=" 2:00 pm " itemValue="14" />
+								<f:selectItem itemLabel=" 3:00 pm " itemValue="15" />
+								<f:selectItem itemLabel=" 4:00 pm " itemValue="16" />
+								<f:selectItem itemLabel=" 5:00 pm " itemValue="17" />
+								<f:selectItem itemLabel=" 6:00 pm " itemValue="18" />
+								<f:selectItem itemLabel=" 7:00 pm " itemValue="18" />	
+								<f:selectItem itemLabel=" 8:00 pm " itemValue="18" />	
+								<f:selectItem itemLabel=" 9:00 pm " itemValue="18" />		
+						</p:selectOneMenu>	
+        	</p:column>
+    	</p:row>
+ 
+    </p:panelGrid>
+   
+   <p:row>
+
+				<p:column colspan="4">
+					<p:commandButton value="Guardar" id="botonGuardar"
+						actionListener="#{registrarTutoriaMBean.guardar}" ajax="false" />
+				</p:column>
+			</p:row>
+   
+		</p:panel>
+	</ui:define>
+</ui:composition>
+
+
+</html>

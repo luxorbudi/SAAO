@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/plantilla/plantilla.xhtml">
+	<ui:define name="contenido">
+
+		<p:panel header="Mantenimiento de Usuarios" style="width: 300px;">
+			<h:panelGrid id="pnlLoginAcceso" style="font-size: 12px;" columns="2"
+				cellspacing="5">
+
+			</h:panelGrid>
+		</p:panel>
+		<p:panelGrid id="pnlGridLoginAcceso">
+			<p:row>
+				<p:column styleClass="ui-column-label-spij styleAlignRightColumn">
+					<h:outputText id="lblUserId"
+						value="#{mensaje['demo.mantenimiento.usuario.idUsuario']}" />
+				</p:column>
+
+				<p:column>
+					<p:inputText id="usuarioId" required="true" size="40"
+						requiredMessage="#{mensaje['general.error.requerido']}"
+						value="#{usuarioMBean.usuarioModel.idUsuario}" />
+					<p:message for="usuarioId" />
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column styleClass="ui-column-label-spij styleAlignRightColumn">
+					<h:outputText id="lblLoginPassword"
+						value="#{mensaje['demo.mantenimiento.usuario.clave']}" />
+				</p:column>
+
+				<p:column styleClass="styleAlignLeftColumn">
+					<p:password id="clave" required="true" size="40"
+						requiredMessage="#{mensaje['general.error.requerido']}"
+						value="#{usuarioMBean.usuarioModel.clave}" />
+					<p:message for="clave" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="ui-column-label-spij styleAlignRightColumn">
+					<h:outputText id="lblRol"
+						value="#{mensaje['demo.mantenimiento.usuario.rol']}" />
+				</p:column>
+				<p:column styleClass="styleAlignLeftColumn">
+					<p:selectOneMenu value="#{usuarioMBean.usuarioModel.rol}">
+						<f:selectItem itemLabel="Rol Administrador" itemValue="ROLE_ADMIN" />
+						<f:selectItem itemLabel="Rol Tutor" itemValue="ROLE_USER" />
+						<f:selectItem itemLabel="Rol Unayoe" itemValue="ROLE_UNAYOE" />
+						<f:selectItem itemLabel="Rol Dir. Academica" itemValue="ROLE_DIR_ACA" />
+					</p:selectOneMenu>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column colspan="2" styleClass="styleAlignRightColumn">
+					<p:commandButton value="Guardar" id="botonGuardar"
+						actionListener="#{usuarioMBean.guardar}" ajax="false" />
+
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+
+	</ui:define>
+
+</ui:composition>
+
+
+</html>

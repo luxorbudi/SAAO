@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/plantilla/plantilla_user.xhtml">
+        <ui:define name="contenido">
+
+            <p:panel header="Asistencia de Alumnos a Tutoria" style="width: 300px;" >
+                <h:panelGrid  id="pnlLoginAcceso" style="font-size: 12px;" columns="2" cellspacing="5">
+                    
+                </h:panelGrid>
+            </p:panel>
+            <p:outputPanel id="displayTable" style="width:80%;margin-top:10px;">
+                <p:row id="tablaAsistenciaTutoria">
+		   		
+		   		<p:column  id="colTabla" styleClass="ui-column-label-spij styleAlignRightColumn" colspan="3"> 
+		   			<p:dataTable id="tablaResultado" style="font-size:12px;" value="#{alumnoMBean.listAsistenciaAlumnosTutoria}" 
+                             var="lista" emptyMessage="Sin alumnos observados" 
+                             paginator="true" rows="5">
+                    <f:facet name="header">
+                        <h:outputLabel style="font-size: 12px;" value="Alumnos Observados"/>
+                    </f:facet>
+                    <p:column headerText="Curso" style="font-size: 12px;width: 20%" >
+                        <h:outputText value="#{lista.curso.nombre}" />
+                    </p:column>
+
+                    <p:column headerText="Codigo Alumno" style="font-size: 12px;width: 20%" >
+                        <h:outputText value="#{lista.alumno.aCodigo}" />
+                    </p:column>
+
+                    <p:column headerText="Nombres" sortBy="#{lista.alumno.aNombre}" filterBy="#{lista.alumno.aNombre}" style="font-size: 12px;width: 35%" >
+                        <h:outputText value="#{lista.alumno.aNombre}" />
+                    </p:column>
+
+                    <p:column headerText="Apellidos" sortBy="#{lista.alumno.aApellido}" filterBy="#{lista.alumno.aApellido}" style="font-size: 12px;width: 25%" >
+                        <h:outputText value="#{lista.alumno.aApellido}" />
+                    </p:column>
+
+                    <p:column headerText="Hora Inicio"  style="font-size: 12px;width: 25%" >
+                        <h:outputText value="#{lista.diasClases.horaIni}" />
+                    </p:column>
+
+                    <p:column headerText="Hora Fin"  style="font-size: 12px;width: 25%" >
+                        <h:outputText value="#{lista.diasClases.horaFin}" />
+                    </p:column>
+
+                    <p:column headerText="Asistencia" style="font-size: 12px;width: 25%" >
+                        <p:selectOneMenu
+							value="#{lista.asistenciaT}">
+								<f:selectItem itemLabel="Falto" itemValue="F" />
+								<f:selectItem itemLabel="Asistio" itemValue="A" />
+								<f:selectItem itemLabel="Tardanza" itemValue="T" />
+						</p:selectOneMenu>
+                    </p:column>
+                    
+                    
+
+                    <p:column headerText="Observaciones"   style="font-size: 12px;width: 25%" >
+                        <h:inputText value="#{lista.observacionT}" />
+                    </p:column>
+                    
+			
+
+                    <f:facet name="footer">
+                        <h:outputLabel style="font-size: 12px;" value="Total de Registros: #{tutoriaMBean.listAsistenciaAlumnosTutoria.size()}"/>
+                    </f:facet>
+                </p:dataTable>
+                </p:column>
+                
+                </p:row>
+                <p:row>
+		   			<p:column  colspan="3"       >
+						<p:commandButton update=""  value="Guardar" id="botonGuardar"   actionListener="#{tutoriaMBean.guardarListaAsistencia}" ajax="false" />
+					</p:column>
+            	</p:row>
+            </p:outputPanel>  
+
+        </ui:define>
+
+    </ui:composition>
+
+
+</html>

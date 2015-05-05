@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<c:set var="RESULTADO" scope="session" value="${loginMBean.rol}" />
+<c:if test="${RESULTADO=='ROLE_ADMIN'}">
+	<HEAD>
+<META http-equiv="refresh"
+	content="0;URL='/unayoe-web/paginas/principal.xhtml'" />
+	</HEAD>
+</c:if>
+<c:if test="${RESULTADO=='ROLE_USER'}">
+	<HEAD>
+<META http-equiv="refresh"
+	content="0;URL='/unayoe-web/paginas/principal_user.xhtml'" />
+	</HEAD>
+</c:if>
+<c:if test="${RESULTADO=='ROLE_UNAYOE'}">
+	<HEAD>
+<META http-equiv="refresh"
+	content="0;URL='/unayoe-web/paginas/principal_unayoe.xhtml'" />
+	</HEAD>
+</c:if>
+<c:if test="${RESULTADO=='ROLE_DIR_ACA'}">
+	<HEAD>
+<META http-equiv="refresh"
+	content="0;URL='/unayoe-web/paginas/principal_dir_aca.xhtml'" />
+	</HEAD>
+</c:if>
+<c:if test="${RESULTADO=='0'}">
+        ROL OTROS
+    </c:if>
+</html>

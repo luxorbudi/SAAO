@@ -1,0 +1,36 @@
+package pe.edu.sistemas.unayoe.dao;
+
+import static org.junit.Assert.fail;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+
+import pe.edu.sistemas.unayoe.dao.dominio.Usuario;
+
+public class UsuarioDaoTest extends AbstractContext{
+
+	@Autowired
+	private UsuarioIDao usuarioDao;
+
+
+	
+	
+	@Test
+	public void obtenerUsuarioTest(){
+		String usuario = "bfpalacios";
+		try {
+			Usuario usuarioObj =  usuarioDao.obtenerUsuario(usuario);
+			System.out.println(usuarioObj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+	
+
+	
+	
+	
+	
+}

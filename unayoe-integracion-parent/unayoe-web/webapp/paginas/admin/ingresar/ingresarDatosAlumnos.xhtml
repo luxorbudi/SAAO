@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/plantilla/plantilla.xhtml">
+	<ui:define name="contenido">
+		<p:panelGrid id="pnlGridLoginAcceso"  >
+		<f:facet name="header">
+        <p:row>
+            <p:column colspan="3">Cargar datos desde Excel</p:column>
+        </p:row>
+        
+ 
+    </f:facet>
+			<p:row>
+		    	<p:column styleClass="ui-column-label-spij styleAlignRightColumn">
+		        	<h:outputText id="lCargar" value="#{mensaje['unayoe.ingresar.datos.alumnos.label.cargar']}"/>
+		        	
+		        </p:column>
+		        <p:column >
+		        	<p:inputText 	id="nombreExcel"    value="#{datosAlumnosMBean.archivoModel.nombre}"  size="20"/>
+		        </p:column>
+		         <p:column styleClass="ui-column-label-spij styleAlignRightColumn">
+		         <p:fileUpload fileUploadListener="#{datosAlumnosMBean.handleFileUpload}"
+		            					sizeLimit="500000"
+		            					update="nombreExcel"
+		            					auto="true" mode= "advanced" allowTypes="/(\.|\/)(xlsx|xls)$/" 
+		            					multiple="false" rendered="true"  label="Seleccionar Excel"
+		            					/>	
+		          </p:column>
+		   	</p:row>
+		   	<p:row   id="filExcel">
+		    	<p:column id= "colExcel" styleClass="ui-column-label-spij styleAlignRightColumn">
+		    		
+		    			
+		        	<h:outputText id="ciclo" value="#{mensaje['unayoe.ingresar.datos.alumnos.label.ciclo']}"/>
+		        		</p:column>
+		       		<p:column >
+		        	<h:selectOneMenu id="selectOneMenu" styleClass="ui-column-label-spij styleAlignRightColumn">
+						<f:selectItem  itemValue="1" itemLabel="2014-I" />
+						<f:selectItem itemValue="2"  itemLabel="2014-II" />
+					</h:selectOneMenu>
+					
+				    	 
+		        </p:column>  
+		        <p:column styleClass="ui-column-label-spij styleAlignRightColumn">
+		        	<p:commandButton value="Mostrar" id="botonMostrar"  ajax="false"  update="tablaAlumnos"/>
+		        	
+		        </p:column> 
+		   	</p:row>
+		 
+		   	<p:row id="filTabla">
+		   		
+		   		<p:column  id="colTabla" styleClass="ui-column-label-spij styleAlignRightColumn" colspan="3"> 
+		   			<p:dataTable id="tablaAlumnos"  var="alumno" value="#{datosAlumnosMBean.datosAlumnoExcelModels}"  >
+     				<p:column headerText="Codigo">
+        				<h:outputText value="#{alumno.cod_alumno}" />
+    				</p:column>
+ 
+    				<p:column headerText="Nombres">
+        					<h:outputText value="#{alumno.nombres}" />
+    						</p:column>
+    
+    						<p:column headerText="Apellido paterno">
+        					<h:outputText value="#{alumno.ap_paterno}" />
+    						</p:column>
+    
+    						<p:column headerText="Apellido materno">
+        					<h:outputText value="#{alumno.ap_materno}" />
+    						</p:column>
+ 	
+ 							<p:column headerText="Año de ingreso">
+        					<h:outputText value="#{alumno.anio_ingreso}" />
+    						</p:column>
+ 
+   	 						<p:column headerText="Codigo de Curso">
+        					<h:outputText value="#{alumno.cod_curso}" />
+    						</p:column>
+    
+    						<p:column headerText="Curso">
+        					<h:outputText value="#{alumno.des_curso}" />
+    						</p:column>
+    
+    						<p:column headerText="Ciclo">
+        					<h:outputText value="#{alumno.cod_sem}" />
+    						</p:column>
+ 
+    						<p:column headerText="Plan">
+        					<h:outputText value="#{alumno.cod_plan}" />
+    						</p:column>
+    						
+    						<p:column headerText="Repitencias">
+        					<h:outputText value="#{alumno.repitencias}" />
+    						</p:column>
+    						<p:column headerText="Creditos">
+        					<h:outputText value="#{alumno.creditos}" />
+    						</p:column>
+			</p:dataTable>
+			   </p:column>   
+			</p:row>
+			<p:row  >
+				<p:column  colspan="3"       >
+					<p:commandButton   value="Guardar" id="botonGuardar"   actionListener="#{datosAlumnosMBean.guardar}" ajax="false" />
+				</p:column>
+			</p:row>
+			
+		</p:panelGrid>
+		</ui:define>
+
+</ui:composition>
+
+</html>

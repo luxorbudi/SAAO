@@ -1,0 +1,30 @@
+#Plantilla
+demo.piepagina.mensaje=Facultad de Ingenieria de Sistemas e Informatica - UNMSM
+unayoe.ingresar.datos.alumnos.label.cargar=Cargar Alumnos
+unayoe.ingresar.datos.alumnos.label.ciclo=Ciclo
+
+
+#General
+general.error.requerido=Campo requerido
+
+#Login
+demo.login.cabecera=Login
+demo.login.usuario=Usuario
+demo.login.contrasenia=Clave
+demo.login.btn.entrar=Entrar
+error.sessionTimeOut.header=Sesion Caducada ?
+error.sessionTimeOut.text=La sesion ha caducado, por favor, pulse sobre el siguiente boton para volver a acceder a la aplicacion
+
+#asistencia
+unayoe.registrar.usuario=Usuario
+
+#asistencia a tutoria docente
+unayoe.ingresar.datos.alumnos.label.fecha=Fecha
+unayoe.ingresar.datos.alumnos.label.curso=Curso
+unayoe.ingresar.datos.alumnos.label.buscar=Buscar
+
+
+#titulos generales
+unayoe.pagina.principal=SSAO Sistema de Seguimiento de Alumnos Observados
+unayoe.ingresar.asistencia=Ingresar Asistencia Tutoria 
+unayoe.mostrar.asistencia=Mostrar Asistencia Tutoria 
